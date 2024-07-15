@@ -17,8 +17,21 @@ public class SingletonDemo{
     //thread safe initialization
     ThreadSafeSingleton threadSafeExample1=ThreadSafeSingleton.getInstance();
     ThreadSafeSingleton threadSafeExample2=ThreadSafeSingleton.getInstance();
-    System.out.println("threadSafeExample1 : "+lazyExample1);
-    System.out.println("threadSafeExample2 : "+lazyExample2);
+    System.out.println("threadSafeExample1 : "+threadSafeExample1);
+    System.out.println("threadSafeExample2 : "+threadSafeExample2);
+
+    //doublecheckedlocking singleton
+    DoubleCheckedLockingSingleton doubleCheckedLockingSingletonExample1=DoubleCheckedLockingSingleton.getInstance();
+    DoubleCheckedLockingSingleton doubleCheckedLockingSingletonExample2=DoubleCheckedLockingSingleton.getInstance();
+    System.out.println("doubleCheckedLockingSingletonExample1 : "+doubleCheckedLockingSingletonExample1);
+    System.out.println("doubleCheckedLockingSingletonExample2 : "+doubleCheckedLockingSingletonExample2);
+
+    //billpugh singleton
+    BillPughSingleton billPughSingletonExample1=BillPughSingleton.getInstance();
+    BillPughSingleton billPughSingletonExample2=BillPughSingleton.getInstance();
+    System.out.println("billPughSingletonExample1 : "+billPughSingletonExample1);
+    System.out.println("billPughSingletonExample2 : "+billPughSingletonExample2);
+
 
   }
 }
