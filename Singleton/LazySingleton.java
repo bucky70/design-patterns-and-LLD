@@ -7,7 +7,7 @@ public final class LazySingleton {
     }
    // making INSTANCE static and final as all the objects will have same instance
     private static LazySingleton INSTANCE;
-   //this is eager loading, the instance is created when the class is loaded
+   //this is lazy instantiation, the instance is created when the getInstance method is called
     public static LazySingleton getInstance(){
         if(INSTANCE==null){
             INSTANCE=new LazySingleton();
