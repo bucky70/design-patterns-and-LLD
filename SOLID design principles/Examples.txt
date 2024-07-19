@@ -1,0 +1,220 @@
+package SOLID design principles;
+
+--------------------------------------------Single Responsibility---------------------------------------------
+
+class Marker{
+   private String name;
+   private String color;
+   private int price;
+   public Marker(String name,String color,int price){
+    this.name=name;
+    this.color=color;
+    this.price=price;
+   }
+}
+
+
+//this class violates single responsibility priciple, 
+//we can move the responsibility of printing and saving to DB to another classes
+class Invoice{
+    private Marker marker;
+    private int quantity;
+
+    public Invoice(Marker marker, int quantity){
+        this.marker=marker;
+        this.quantity=quantity;
+    }
+
+    public int claculate Invoice(){
+        return marker.getPrice()*quantity;
+    }
+    public void printInvoice(){
+        //prints invoice;
+    }
+    public void saveToDB(){
+        //saves to DB;
+    }
+}
+
+//better approach
+
+class Invoice{
+    private Marker marker;
+    private int quantity;
+
+    public Invoice(Marker marker, int quantity){
+        this.marker=marker;
+        this.quantity=quantity;
+    }
+
+    public int claculate Invoice(){
+        return marker.getPrice()*quantity;
+    }
+}
+
+class InvoicePrinter{
+    private Invoice invoice;
+    public InvoicePrinter(Invoice invoice){
+        this.invoice=invoice;
+    }
+    public void printInvoice(){
+        //prints invoice;
+    }
+}
+
+class InvoiceDAO{
+    private Invoice invoice;
+    public InvoiceDAO(Invoice invoice){
+        this.invoice=invoice;
+    }
+    public void saveToDB(){
+        //saves to DB;
+    }
+}
+
+-------------------------------open to extension, closed for modification---------------------------
+
+class InvoiceDAO{
+    private Invoice invoice;
+    public InvoiceDAO(Invoice invoice){
+        this.invoice=invoice;
+    }
+    public void saveToDB(){
+        //saves to DB;
+    }
+}
+
+//now we need to add saveToFile() functionality what do we do?
+
+//wrong approach
+
+class InvoiceDAO{
+    private Invoice invoice;
+    public InvoiceDAO(Invoice invoice){
+        this.invoice=invoice;
+    }
+    public void saveToDB(Invoice invoice){
+        //saves to DB;
+    }
+     public void saveToFile(Invoice invoice){
+        //saves to File;
+    }
+}
+
+//correct approach
+interface InvoiceDAO{
+    void saveToDB(Invoice invoice){
+       
+    }
+}
+
+class DatabaseInvoiceDAO implements InvoiceDAO{
+    private Invoice invoice;
+    public DatabaseInvoiceDAO(Invoice invoice){
+        this.invoice=invoice;
+    }
+    @Override
+    public void saveToDB(Invoice invoice){
+        //save to DB
+    }
+}
+
+class FileInvoiceDAO implements InvoiceDAO{
+      private Invoice invoice;
+    public FileInvoiceDAO(Invoice invoice){
+        this.invoice=invoice;
+    }
+     public void saveToFile(Invoice invoice){
+        //saves to File;
+    }
+}
+
+
+---------------------------------------Liskov substitution principles---------------------------------------
+
+interface Bike[
+    void turnOnEngine();
+    void accelerate();
+]
+
+class MotorCycle implements Bike{
+    boolean isEngineOn;
+    int speed;
+    public void turnOnEngine(){
+       isEngineOn=true;
+    }
+    public int accelerate(){
+        speed+=10;
+    }
+}
+
+//this is wrong approach , we can block the features of parent/interface we can only extend the features further
+class Bicycle implements Bike{
+    boolean isEngineOn;
+    int speed;
+    public void turnOnEngine(){
+       throw new Exception("no engine for bicycle");
+    }
+    public int accelerate(){
+        speed+=10;
+    }
+}
+
+
+
+----------------------------------interface segmented principle ------------------------------------
+
+interface RestaurantEmployee{
+    void washDishes();
+    void serveCustomer();
+    void cookFood();
+}
+
+
+//this approach is wrong as we need to seperate out functionality based on the employee type
+class Waiter implements RestaurantEmployee{
+     public void washDishes(){
+        //wash dishes
+     }
+     public  void serveCustomer(){
+        //server customers
+     }
+     public void cookFood(){
+        //cook food
+     }
+}
+
+//correct approach'
+
+interface Employee{
+
+}
+class Waiter implements Employee{
+     public  void serveCustomer(){
+        //server customers
+     }
+}
+
+class Cook implements Employee{
+      public void cookFood(){
+        //cook food
+     }
+}
+
+class Helper implements Employee{
+    public void washDishes(){
+        //wash dishes
+     }
+}
+
+--------------------------------------Dependency inversion --------------------------------------
+//wrong approach
+class MacBook{
+    private WiredKeyBoard keyboard;
+    private WiredMouse mouse;
+    public MacBook( WiredKeyBoard keyboard, WiredMouse mouse){
+        this.keyboard=keyboard;
+        this.mouse=mouse;
+    }
+}
+//in the corect approach we just replace the concrete classes with interfaces so that the type of object can be easily replaced
