@@ -1,0 +1,7 @@
+singleton vending machine,
+client will interact with vending machine directly,
+another interface for restocking,
+synchronised methods for changing the qunatity of products
+//enums for coins, notes
+ interface for products
+ global exceptions class to handle
