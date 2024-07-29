@@ -1,0 +1,2 @@
+main difference between state and strategy is in state every state is aware of other state 
+ie, we can check and change the state in any of the state based on the conditions in the character class
